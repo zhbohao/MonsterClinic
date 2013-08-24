@@ -7,6 +7,7 @@ public class IsometricCameraMovement : MonoBehaviour
 	private float movementX;
 	private float movementY;
 	private GameObject IsoCamera;
+	private float speed;
 	
 	// Use this for initialization
 	void Start () 
@@ -17,9 +18,20 @@ public class IsometricCameraMovement : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+		// Adjust the speed with respect to zoom and shift key press
+		if(Input.GetKey(KeyCode.LeftShift))
+		{
+			speed = 0.030f;
+		}
+		else
+		{
+			speed = 0.015f;
+		}
+		speed = speed * IsoCamera.camera.orthographicSize;
+		
 		// Get input from keyboard
-		movementX = 0.5f*Input.GetAxis("Horizontal");
-		movementY = 0.5f*Input.GetAxis("Vertical");
+		movementX = speed*Input.GetAxis("Horizontal");
+		movementY = speed*Input.GetAxis("Vertical");
 		
 		// Move the camera
 		transform.Translate(movementX + movementY, 0, movementY - movementX);
@@ -29,8 +41,17 @@ public class IsometricCameraMovement : MonoBehaviour
         {
         	IsoCamera.camera.orthographicSize = IsoCamera.camera.orthographicSize - 1;
         }
+		if(Input.GetAxis("Mouse ScrollWheel") > 0 && IsoCamera.camera.orthographicSize > 5)
+        {
+        	IsoCamera.camera.orthographicSize = IsoCamera.camera.orthographicSize - 1;
+        }
+		
 		// Zoom out camera
 		if(Input.GetKey(KeyCode.Q) && IsoCamera.camera.orthographicSize < 50)
+        {
+        	IsoCamera.camera.orthographicSize = IsoCamera.camera.orthographicSize + 1;
+        }
+		if(Input.GetAxis("Mouse ScrollWheel") < 0 && IsoCamera.camera.orthographicSize < 50)
         {
         	IsoCamera.camera.orthographicSize = IsoCamera.camera.orthographicSize + 1;
         }

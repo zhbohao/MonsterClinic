@@ -26,6 +26,13 @@ public class LevelManager : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+		// Check for camera toggle F12 key press
+		if(Input.GetKeyDown(KeyCode.F12))
+		{
+			// Switch camera
+			swicthCamera();
+		}
+		
 		// Cast a ray from screen mouse position to 3d world space
 		Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit cameraRayHit;
@@ -59,12 +66,12 @@ public class LevelManager : MonoBehaviour
 		return tilePoints;
 	}
 	
-	void OnGUI()
+	// Switches the camera between isometric and prespective
+	void swicthCamera()
 	{
 		GameObject cam;
-		if (GUI.Button(new Rect(0,0,100,50),"Toggle Camera"))
-		{
-			if(IsoCam)
+		
+		if(IsoCam)
 			{
 				cam = GameObject.Find("Isometric Camera");
 				if(cam==null)
@@ -81,6 +88,5 @@ public class LevelManager : MonoBehaviour
 				GameObject.Instantiate(IsoCamera);
 			}
 			IsoCam = !IsoCam;
-		}
 	}
 }
