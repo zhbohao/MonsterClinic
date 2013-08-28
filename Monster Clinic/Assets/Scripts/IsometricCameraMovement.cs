@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Isometric camera movement class
 public class IsometricCameraMovement : MonoBehaviour 
 {
 	// Private variables
