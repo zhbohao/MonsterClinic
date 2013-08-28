@@ -44,6 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ButtonCheck.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
@@ -163,6 +164,7 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
      <Compile Include="Assets\Scripts\CameraMovement.cs" />
+     <Compile Include="Assets\Scripts\EventsGUI.cs" />
      <Compile Include="Assets\Scripts\IsometricCameraMovement.cs" />
      <Compile Include="Assets\Scripts\LevelManager.cs" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Depth Cutout.shader" />
