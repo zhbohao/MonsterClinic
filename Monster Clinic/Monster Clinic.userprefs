@@ -1,9 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\IsometricCameraMovement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Maps.cs">
     <Files>
-      <File FileName="Assets\Scripts\LevelManager.cs" Line="45" Column="12" />
-      <File FileName="Assets\Scripts\IsometricCameraMovement.cs" Line="48" Column="3" />
+      <File FileName="Assets\Scripts\Maps.cs" Line="35" Column="5" />
+      <File FileName="Assets\Scripts\LevelManager.cs" Line="160" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
