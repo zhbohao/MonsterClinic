@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EventsGUI : MonoBehaviour {
+public class EventsGUI : MonoBehaviour 
+{
 
 	// Use this for initialization
 	void Start () {
@@ -10,6 +11,6 @@ public class EventsGUI : MonoBehaviour {
 	
 	void OnClick()
 	{
-		print ("clicked");
+
 	}
 }
