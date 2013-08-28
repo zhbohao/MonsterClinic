@@ -5,22 +5,22 @@ using System.Collections;
 public class Maps : MonoBehaviour 
 {
 	// Maps
+	
 	/// <summary>
 	/// Floor map is used to keep track of map
-	/// -1 for empty cell outside room
-	/// 0 for non-empty cell outside room
-	/// 1 for empty cell inside room
-	/// 2 for non-empty cell inside room
-	/// 3 for walls (Horizontal)
-	/// 4 for walls (Vertical)
-	/// 5 for doors
+	/// 0 for empty cell outside room
+	/// 1 for non-empty cell outside room
+	/// 2 for empty cell inside room
+	/// 4 for non-empty cell inside room
+	/// 5 for walls (Horizontal)
+	/// 6 for walls (Vertical)
+	/// 7 for doors
 	/// </summary>
 	private static int [,] floorMap = new int[100,100];
 	
 	/// <summary>
 	/// Room map is used to keep track of rooms
-	/// -1 for no room
-	/// 0 not defined yet
+	/// 0 for no room
 	/// 1,2,3...999 Room IDs
 	/// </summary>
 	private static int [,] roomMap = new int[100,100];
@@ -28,15 +28,7 @@ public class Maps : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		// Initialize floor map
-		for(int i=0; i<100; i++)
-		{
-			for(int j=0; j<100; j++)
-			{
-				floorMap[i,j] = -1;
-				roomMap[i,j] = -1;
-			}
-		}
+
 	}
 	
 	// Update is called once per frame

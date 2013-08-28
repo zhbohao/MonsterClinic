@@ -24,17 +24,6 @@ public class LevelManager : MonoBehaviour
 	private MeshRenderer hoverTileRenderer;
 	private RoomType selectedRoomType;
 	private Vector2 selectedCell;
-	/// <summary>
-	/// Array floor map is used to keep track of map
-	/// -1 for empty cell outside room
-	/// 0 for non-empty cell outside room
-	/// 1 for empty cell inside room
-	/// 2 for non-empty cell inside room
-	/// 3 for walls
-	/// 4 for doors
-	/// +Integar.x for room ID
-	/// </summary>
-	private float [,] floorMap = new float[100,100];
 	
 	// Use this for initialization
 	void Start () 
@@ -42,17 +31,6 @@ public class LevelManager : MonoBehaviour
 		// Calculate number of tiles
 		horizontalTiles = (int)(floorWidth/tileWidth);
 		verticalTiles = (int)(floorHeight/tileHeight);
-		
-		// Initialize floor map
-		for(int i=0; i<horizontalTiles; i++)
-		{
-			for(int j=0; j<verticalTiles; j++)
-			{
-				floorMap[i,j] = -1f;
-			}
-		}
-		
-		floorMap[1,1] = 1;
 		
 		// Instantiate tile for hover
 		hoverTile = (GameObject) Instantiate(hoverTile);
@@ -98,6 +76,15 @@ public class LevelManager : MonoBehaviour
 				{
 					getRoomPlacement();
 				}
+		   }
+		   // If escape key is pressed, exit room creation mode
+		   if(Input.GetKey(KeyCode.Escape))
+		   {
+				gameMode = Mode.None;
+				gameState = State.None;
+				selectedRoomType = RoomType.None;
+				selectedCell = new Vector2(-1,-1);
+				hoverTileRenderer.enabled = false;
 		   }
 		}
 	}
@@ -154,16 +141,16 @@ public class LevelManager : MonoBehaviour
 				hitPoint = getTilePoints(hitPoint);
 				hoverTile.transform.position = new Vector3(hitPoint.x*tileWidth, 0f , hitPoint.y*tileHeight);
 				hoverTileRenderer.enabled = true;
+				hoverTile.transform.localScale = new Vector3(1F,1F,1F);
 				
 				// If empty cell outside room
-				if(floorMap[(int)hitPoint.x, (int)hitPoint.y]==-1f)
+				if(Maps.GetFloorMapValue((int)hitPoint.x, (int)hitPoint.y)==0)
 				{
 					// Set the color of tile to green
 					hoverTileRenderer.material.SetColor ("_Color", new Color(0F, 1.0F, 0F, 0.25F));
 					if(Input.GetMouseButton(0))
 					{
 						selectedCell = new Vector2(hitPoint.x, hitPoint.y);
-						//print(hitPoint+":"+floorMap[(int)hitPoint.x, (int)hitPoint.y]);
 					}	
 				}
 				// If not an empty cell outside room
