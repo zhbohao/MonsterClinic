@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 // Enum mode
 public enum Mode
@@ -37,7 +38,7 @@ public enum RectanglePosition
 }
 
 // Room class
-public class Room : MonoBehaviour 
+public class Room 
 {
 	// Public static variables
 	public static int roomIdCounter = 0;
@@ -50,21 +51,13 @@ public class Room : MonoBehaviour
 	public Vector2 rightBottom;
 	public Vector2 rightTop;
 	public Vector2 door;
-	
-	// Use this for initialization
-	void Start () 
-	{
-	
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-	
-	}
+	public List<GameObject> leftWall;
+	public List<GameObject> rightWall;
+	public List<GameObject> bottomWall;
+	public List<GameObject> topWall;
 	
 	// Constructor room
-	Room()
+	public Room()
 	{
 		roomId = ++roomIdCounter;
 		type = RoomType.None;
@@ -76,15 +69,49 @@ public class Room : MonoBehaviour
 	}
 	
 	// Overloaded constructor room
-	Room(RoomType roomType, Vector2 leftDown, Vector2 leftUp, Vector2 RightDown, Vector2 RightUp)
+	public Room(RoomType roomType, Vector2 leftDown, Vector2 leftUp, Vector2 rightDown, Vector2 rightUp, GameObject horizontalWall, GameObject verticalWall, Transform t)
 	{
 		roomId = ++roomIdCounter;
 		type = roomType;
 		leftBottom = leftDown;
 		leftTop = leftUp;
-		rightBottom = RightDown;
-		rightTop = RightUp;
+		rightBottom = rightDown;
+		rightTop = rightUp;
 		// Value (-1,-1) for door means room has no door
-		door = new Vector2(-1,-1);
+		Vector2 door = new Vector2(-1f,-1f);
+		leftWall = new List<GameObject>();
+		rightWall = new List<GameObject>();
+		bottomWall = new List<GameObject>();
+		topWall = new List<GameObject>();
+		
+		// Calculate length of walls
+		float xD = rightBottom.x - leftBottom.x;
+		float yD = leftTop.y - leftBottom.y;
+		GameObject wall;
+		
+		// Build left wall
+		for(int i = 0; i<yD; i++)
+		{
+			wall = (GameObject) GameObject.Instantiate(verticalWall, new Vector3(leftBottom.x,0F,leftBottom.y+i), t.rotation);
+			leftWall.Add(wall);
+		}
+		// Build right wall
+		for(int i = 0; i<yD; i++)
+		{
+			wall = (GameObject) GameObject.Instantiate(verticalWall, new Vector3(rightBottom.x,0F,rightBottom.y+i), t.rotation);
+			rightWall.Add(wall);
+		}
+		// Build bottom wall
+		for(int i = 0; i<xD; i++)
+		{
+			wall = (GameObject) GameObject.Instantiate(horizontalWall, new Vector3(leftBottom.x+i,0F,leftBottom.y), t.rotation);
+			bottomWall.Add(wall);
+		}
+		// Build top wall
+		for(int i = 0; i<xD; i++)
+		{
+			wall = (GameObject) GameObject.Instantiate(horizontalWall, new Vector3(leftTop.x+i,0F,leftTop.y), t.rotation);
+			topWall.Add(wall);
+		}
 	}
 }

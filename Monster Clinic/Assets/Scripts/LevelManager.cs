@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 // Level manager class
 public class LevelManager : MonoBehaviour 
@@ -14,24 +15,21 @@ public class LevelManager : MonoBehaviour
 	public float tileWidth = 1f;
 	public float tileHeight = 1f;
 	public GameObject hoverTile;
+	public GameObject horizontalWall;
+	public GameObject verticalWall;
 	public GameObject IsoCamera;
 	public GameObject PresCamera;
 	
 	// Private Variables
 	private bool IsoCam = true;
-	private int horizontalTiles;
-	private int verticalTiles;
 	private MeshRenderer hoverTileRenderer;
 	private RoomType selectedRoomType;
 	private Vector2 selectedCell;
+	private List<Room> rooms;
 	
 	// Use this for initialization
 	void Start () 
-	{
-		// Calculate number of tiles
-		horizontalTiles = (int)(floorWidth/tileWidth);
-		verticalTiles = (int)(floorHeight/tileHeight);
-		
+	{	
 		// Instantiate tile for hover
 		hoverTile = (GameObject) Instantiate(hoverTile);
 		hoverTile.GetComponentInChildren<MeshRenderer>().enabled = false;
@@ -42,6 +40,7 @@ public class LevelManager : MonoBehaviour
 		// Initialize other variables
 		selectedRoomType = RoomType.None;
 		selectedCell = new Vector2(-1,-1);
+		rooms = new List<Room>();
 	}
 	
 	// Update is called once per frame
@@ -57,6 +56,7 @@ public class LevelManager : MonoBehaviour
 		// If game mode is room creation
 		if(gameMode == Mode.RoomCreation)
 		{
+		   bool roomPlaced = false;
 		   // If state is purchase
 		   if(gameState == State.Purchase)
 		   {
@@ -74,11 +74,11 @@ public class LevelManager : MonoBehaviour
 				// If cell is already selected
 				else
 				{
-					getRoomPlacement();
+					roomPlaced = getRoomPlacement();
 				}
 		   }
 		   // If escape key is pressed, exit room creation mode
-		   if(Input.GetKey(KeyCode.Escape))
+		   if(Input.GetKey(KeyCode.Escape) || roomPlaced)
 		   {
 				gameMode = Mode.None;
 				gameState = State.None;
@@ -148,7 +148,7 @@ public class LevelManager : MonoBehaviour
 				{
 					// Set the color of tile to green
 					hoverTileRenderer.material.SetColor ("_Color", new Color(0F, 1.0F, 0F, 0.25F));
-					if(Input.GetMouseButton(0))
+					if(Input.GetMouseButtonDown(0))
 					{
 						selectedCell = new Vector2(hitPoint.x, hitPoint.y);
 					}	
@@ -168,7 +168,7 @@ public class LevelManager : MonoBehaviour
 	}
 	
 	// Get room placement
-	void getRoomPlacement()
+	bool getRoomPlacement()
 	{
 		// Cast a ray from screen mouse position to 3d world space
 		Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -187,7 +187,6 @@ public class LevelManager : MonoBehaviour
 			xDist = (int)(mouseOverCell.x-selectedCell.x);
 			yDist = (int)(mouseOverCell.y-selectedCell.y);
 			RectanglePosition selectedCellPos = getRectPosition(xDist, yDist);
-			hoverTileRenderer.material.SetColor("_Color", new Color(0F, 1.0F, 0F, 0.25F));	
 			
 			// Position the hover tile
 			if(selectedCellPos == RectanglePosition.LeftBottom)
@@ -211,7 +210,48 @@ public class LevelManager : MonoBehaviour
 			float xD = Mathf.Abs((float)xDist)+1F;
 			float yD = Mathf.Abs((float)yDist)+1F;
 			hoverTile.transform.localScale = new Vector3(xD,1F,yD);
+			
+			// Convert left bottom in vector two
+			Vector2 leftBottomPosition = getTilePoints(hoverTile.transform.position);
+			
+			// Check if room purchase is valid
+			if(isBlockSumZero(leftBottomPosition, xD, yD))
+			{
+				// Change color of hover tile to green
+				hoverTileRenderer.material.SetColor("_Color", new Color(0F, 1.0F, 0F, 0.25F));
+				
+				// If mouse click, build the room
+				if(Input.GetMouseButtonUp(0))
+				{
+					// If room size is minimum 2x2
+					if(xD >= 2f && yD>=2f)
+					{
+						Vector2 lt = new Vector2(leftBottomPosition.x,leftBottomPosition.y+yD);
+						Vector2 rb = new Vector2(leftBottomPosition.x+xD,leftBottomPosition.y);
+						Vector2 rt = new Vector2(leftBottomPosition.x+xD,leftBottomPosition.y+yD);
+						Room room = new Room(selectedRoomType,leftBottomPosition,lt,rb,rt,horizontalWall,verticalWall,transform);
+						rooms.Add(room);
+						
+						// Update the floor map and room map
+						setBlockValueFloorMap(leftBottomPosition, xD, yD, 2);
+						setBlockValueRoomMap(leftBottomPosition, xD, yD, room.roomId);
+						
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
+			}
+			else
+			{
+				// Change color of hover tile to red
+				hoverTileRenderer.material.SetColor("_Color", new Color(1.0F, 0F, 0F, 0.25F));
+				return false;
+			}
 		}
+		return false;
 	}
 	
 	// Move game object to cell
@@ -272,6 +312,51 @@ public class LevelManager : MonoBehaviour
 				return RectanglePosition.RightTop;
 			}
 		}	
+	}
+	
+	// Check if the sum of values of given block is zero in floor map
+	bool isBlockSumZero(Vector2 leftBottom, float hRange, float vRange)
+	{
+		int sum = 0;
+		for(int i = 0; i<hRange; i++)
+		{
+			for(int j = 0; j<vRange; j++)
+			{
+				sum = sum + Maps.GetFloorMapValue(((int)leftBottom.x)+i, ((int)leftBottom.y)+j);
+			}
+		}
+		if(sum == 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	// Set block value for floor map
+	void setBlockValueFloorMap(Vector2 leftBottom, float hRange, float vRange, int val)
+	{
+		for(int i = 0; i<hRange; i++)
+		{
+			for(int j = 0; j<vRange; j++)
+			{
+				Maps.SetFloorMapValue(((int)leftBottom.x)+i, ((int)leftBottom.y)+j, val);
+			}
+		}
+	}
+	
+	// Set block value for room map
+	void setBlockValueRoomMap(Vector2 leftBottom, float hRange, float vRange, int val)
+	{
+		for(int i = 0; i<hRange; i++)
+		{
+			for(int j = 0; j<vRange; j++)
+			{
+				Maps.SetRoomMapValue(((int)leftBottom.x)+i, ((int)leftBottom.y)+j, val);
+			}
+		}
 	}
 	
 	void OnGUI()
