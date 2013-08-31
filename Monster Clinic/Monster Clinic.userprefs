@@ -1,5 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Item.cs">
     <Files>
       <File FileName="Assets/Scripts/LevelManager.cs" Line="1" Column="1" />
@@ -8,6 +9,11 @@
       <File FileName="Assets/Scripts/Maps.cs" Line="1" Column="1" />
       <File FileName="Assets/NGUI/Scripts/UI/UIPanel.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Item.cs" Line="11" Column="25" />
+=======
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LevelManager.cs">
+    <Files>
+      <File FileName="Assets\Scripts\LevelManager.cs" Line="5" Column="23" />
+>>>>>>> Refined Code, Added Temporary GUI for testing
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
