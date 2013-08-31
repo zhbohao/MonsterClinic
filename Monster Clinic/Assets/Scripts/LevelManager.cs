@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
 	// Public static variables
 	public static Mode gameMode = Mode.None;
 	public static State gameState = State.None;
+	private RoomType selectedRoomType = RoomType.None;
 	
 	// Public variables
 	public float floorWidth = 100f;
@@ -23,9 +24,8 @@ public class LevelManager : MonoBehaviour
 	// Private Variables
 	private bool IsoCam = true;
 	private MeshRenderer hoverTileRenderer;
-	private RoomType selectedRoomType;
 	private Vector2 selectedCell;
-	private List<Room> rooms;
+	private List<Room> rooms;	
 	
 	// Use this for initialization
 	void Start () 
@@ -356,15 +356,6 @@ public class LevelManager : MonoBehaviour
 			{
 				Maps.SetRoomMapValue(((int)leftBottom.x)+i, ((int)leftBottom.y)+j, val);
 			}
-		}
-	}
-	
-	void OnGUI()
-	{
-		if(GUI.Button(new Rect(Screen.width*0.025f, Screen.height*0.025f, Screen.width*0.1f, Screen.height*0.05f), "Room"))
-		{
-			gameMode = Mode.RoomCreation;
-			gameState = State.Purchase;
 		}
 	}
 }

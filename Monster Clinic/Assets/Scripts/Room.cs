@@ -23,8 +23,15 @@ public enum State
 public enum RoomType
 {
     None,
-	Type1,
-    Type2
+	Reception,
+	StaffBreak,
+	PatientWard,
+	Diagnostics,
+	SlimeTreatment,
+	ShockTreatment,
+	MagicPotion,
+	PhysicalActivity,
+	Type1
 }
 
 // Enum room type
