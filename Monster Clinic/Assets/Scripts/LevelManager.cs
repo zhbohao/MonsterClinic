@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
 	// Public static variables
 	public static Mode gameMode = Mode.None;
 	public static State gameState = State.None;
-	private RoomType selectedRoomType = RoomType.None;
+	public static RoomType selectedRoomType = RoomType.None;
 	
 	// Public variables
 	public float floorWidth = 100f;
@@ -60,8 +60,7 @@ public class LevelManager : MonoBehaviour
 		   // If state is purchase
 		   if(gameState == State.Purchase)
 		   {
-				selectedRoomType = RoomType.Type1;
-				gameState = State.Placement;
+				// AGUI is handling this part
 		   }
 		   // If state is placement
 		   else if (gameState == State.Placement)
