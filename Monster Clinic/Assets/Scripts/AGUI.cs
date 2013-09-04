@@ -42,10 +42,6 @@ public class AGUI : MonoBehaviour
 				LevelManager.gameState = State.Purchase;
 			}
 			
-			// Set the tool tip
-			GUI.Label(new Rect(Screen.width*0.5f-64f, Screen.height*0.003f, 128f, 20f), GUI.tooltip);
-			GUI.tooltip = null;
-			
 			if(LevelManager.gameMode == Mode.RoomCreation && LevelManager.gameState == State.Purchase)
 			{
 				if(GUI.Button(new Rect(Screen.width*0.005f+(0*34f), Screen.height*0.005f+(34f), 32f, 30f), new GUIContent(receptionIcon,"Reception")))
@@ -91,11 +87,13 @@ public class AGUI : MonoBehaviour
 					LevelManager.selectedRoomType = RoomType.PhysicalActivity;
 					LevelManager.gameState = State.Placement;
 				}
-				
+			}
+			if(GUI.tooltip!="")
+			{
 				// Set the tool tip
 				GUI.Label(new Rect(Screen.width*0.5f-64f, Screen.height*0.003f, 128f, 20f), GUI.tooltip);
-				GUI.tooltip = null;
 			}
+			GUI.tooltip = null;
 		}
 	}
 }
