@@ -1,8 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Item.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Staff.cs">
     <Files>
       <File FileName="Assets/Scripts/Item.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/EventsGUI.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/IsometricCameraMovement.cs" Line="1" Column="1" />
+      <File FileName="Assets/GUI Elements Pack/_Readme 1.3.txt" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/AGUI.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Maps.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Room.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/LevelManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Staff.cs" Line="48" Column="1" />
+      <File FileName="Assets/Scripts/StaffManager.cs" Line="11" Column="2" />
+      <File FileName="Assets/Scripts/Prefabs.cs" Line="11" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
