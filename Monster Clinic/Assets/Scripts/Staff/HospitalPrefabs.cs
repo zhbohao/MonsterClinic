@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Prefabs : MonoBehaviour {
+public class HospitalPrefabs : MonoBehaviour {
 	//static class for prefabs
 	
 	public static GameObject Octodoctor;
