@@ -19,7 +19,6 @@ public class Cthuluburse : Staff {
 	{
 		base.staffType = StaffType.Cthuluburse;
 		base.description = "I am a nurse";
-		base.staffModel =(GameObject) GameObject.Instantiate(HospitalPrefabs.Cthuluburse, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
 		level = CthulLevel.one;
 	}
 }

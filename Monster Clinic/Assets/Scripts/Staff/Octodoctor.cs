@@ -18,8 +18,8 @@ public class Octodoctor : Staff {
 	{
 		base.staffType = StaffType.Octodoctor;	
 		base.description = "I am a doctor";
-		base.staffModel =(GameObject) GameObject.Instantiate(HospitalPrefabs.Octodoctor);
 		level = OctoLevel.Attending;
 	}
+	
 	
 }

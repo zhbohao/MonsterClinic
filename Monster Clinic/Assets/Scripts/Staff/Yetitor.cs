@@ -18,7 +18,6 @@ public class Yetitor : Staff {
 	{
 		base.staffType = StaffType.Yetitor;	
 		base.description = "I am a engineer";
-		base.staffModel = staffModel =(GameObject) GameObject.Instantiate(HospitalPrefabs.Yetitor);
 		level = YetitorLevel.Brown;
 	}
 	

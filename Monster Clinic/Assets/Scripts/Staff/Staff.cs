@@ -6,6 +6,7 @@ using System;
 
 public enum StaffType
 {
+	None,
 	Octodoctor,
 	Cthuluburse,
 	Yetitor
