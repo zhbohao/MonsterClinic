@@ -1,4 +1,5 @@
 ﻿<Properties>
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Staff.cs">
     <Files>
@@ -15,6 +16,10 @@
       <File FileName="Assets/Scripts/Prefabs.cs" Line="11" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
+=======
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench />
+>>>>>>> Merge
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
