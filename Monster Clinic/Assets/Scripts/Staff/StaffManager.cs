@@ -3,12 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public enum StaffState
-{
-	None,
-	Placement
-}
-
 public class StaffManager : MonoBehaviour {
 	
 	public GameObject octodoctor;
@@ -20,11 +14,10 @@ public class StaffManager : MonoBehaviour {
 	public List<Yetitor> yetitorList = new List<Yetitor>();
 	
 	public StaffType temp;
-	public StaffState state;
 	public GameObject staffTempRef;
 	public MeshRenderer staffTempRefRend;
 	
-	private LevelManager levelManager;
+
 	
 	// Use this for initialization
 	void Start () {
@@ -34,9 +27,6 @@ public class StaffManager : MonoBehaviour {
 		HospitalPrefabs.Yetitor = yetitor;
 		
 		temp = StaffType.None;
-		state = StaffState.None;
-		
-		levelManager = GetComponent<LevelManager>();
 		staffTempRef = null;
 	}
 	
@@ -46,31 +36,31 @@ public class StaffManager : MonoBehaviour {
 		//just for a test buttons
 		if(GUI.Button(new Rect(0,50,100,20),"Octodoctor"))
 		{
-			if(state == StaffState.Placement)
+			if(LevelManager.gameState == State.Placement)
 				return;
 				
 			/// make the temp the staff i want
 			temp = StaffType.Octodoctor;
-			state = StaffState.Placement;
+			LevelManager.gameState = State.Placement;			
 			SpawnTempStaff(HospitalPrefabs.Octodoctor);
 		}
 		if(GUI.Button(new Rect(150,50,100,20),"Cthuluburse"))
 		{
-			if(state == StaffState.Placement)
-				return;
+			if(LevelManager.gameState == State.Placement)
+				return;///if we are in the placement mode you cant purchase another staff
 			
 			///same again
 			temp = StaffType.Cthuluburse;
-			state = StaffState.Placement;
+			LevelManager.gameState = State.Placement;
 			SpawnTempStaff(HospitalPrefabs.Cthuluburse);
 		}
 		if(GUI.Button(new Rect(300,50,100,20),"Yetitor"))
 		{
-			if(state == StaffState.Placement)
+			if(LevelManager.gameState == State.Placement)
 				return;
 			
 			temp = StaffType.Yetitor;
-			state = StaffState.Placement;
+			LevelManager.gameState = State.Placement;
 			SpawnTempStaff(HospitalPrefabs.Yetitor);
 		}
 	}
@@ -87,12 +77,14 @@ public class StaffManager : MonoBehaviour {
 	
 	void Update()
 	{
-		if(state == StaffState.Placement)
+		if(LevelManager.gameState == State.Placement)
 		{
 			if(Input.GetKeyUp(KeyCode.Escape))
 			{
-				state = StaffState.None;
+				LevelManager.gameState = State.None;
 				temp = StaffType.None;
+				Destroy(staffTempRef);
+				staffTempRefRend = null;
 				
 				return;
 			}
@@ -119,7 +111,7 @@ public class StaffManager : MonoBehaviour {
 					if(Input.GetMouseButtonDown(0))
 					{
 						////plant the staff down
-						//selectedCell = new Vector2(hitPoint.x, hitPoint.y);
+						PositionStaff(new Vector2(hitPoint.x, hitPoint.y));
 					}	
 				}
 				// If not an empty cell outside room
@@ -135,6 +127,38 @@ public class StaffManager : MonoBehaviour {
 			staffTempRefRend.enabled = false;
 		}
 			
+		}
+	}
+	
+	void PositionStaff(Vector2 pos)
+	{
+		//put the staff in the list
+		AddStaff();
+		staffTempRef = null;
+		LevelManager.gameState = State.None;
+		temp = StaffType.None;
+		
+	}
+	
+	void AddStaff()
+	{
+		switch(temp)
+		{
+		case StaffType.Cthuluburse:
+			Cthuluburse c = new Cthuluburse();
+			c.staffModel = staffTempRef;
+			ctuluburseList.Add (c);
+			break;
+		case StaffType.Octodoctor:
+			Octodoctor o = new Octodoctor();
+			o.staffModel = staffTempRef;
+			octodoctorList.Add (o);
+			break;
+		case StaffType.Yetitor:
+			Yetitor y = new Yetitor();
+			y.staffModel = staffTempRef;
+			yetitorList.Add (y);
+			break;
 		}
 	}
 	
