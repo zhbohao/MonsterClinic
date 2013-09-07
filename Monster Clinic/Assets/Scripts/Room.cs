@@ -8,7 +8,8 @@ public enum Mode
     None,
 	RoomCreation,
     RoomFurnishing,
-    RoomDeletion
+    RoomDeletion,
+	StaffHiring
 }
 
 // Enum state
