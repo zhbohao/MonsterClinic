@@ -23,14 +23,13 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-<<<<<<< HEAD
-																																																																																								GlobalSection(MonoDevelopProperties) = preSolution
+																																																																																													GlobalSection(MonoDevelopProperties) = preSolution
 =======
 <<<<<<< HEAD
 																																																																						GlobalSection(MonoDevelopProperties) = preSolution
 >>>>>>> 09f5894d84ce89a1cf27b7067cda074d377c7cf7
 =======
-																																																																											GlobalSection(MonoDevelopProperties) = preSolution
+																																																																										GlobalSection(MonoDevelopProperties) = preSolution
 >>>>>>> Added Staff Hiring Modes and States, Removed Unused Files
 =======
 																																																												GlobalSection(MonoDevelopProperties) = preSolution
