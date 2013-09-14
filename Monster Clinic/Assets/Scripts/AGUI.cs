@@ -7,6 +7,7 @@ public class AGUI : MonoBehaviour
 	// Public variables
 	public GUISkin UISkin;
 	public Texture createRoomIcon;
+	public Texture deleteRoomIcon;
 	public Texture receptionIcon;
 	public Texture staffBreakIcon;
 	public Texture patientWardIcon;
@@ -34,12 +35,18 @@ public class AGUI : MonoBehaviour
 	void OnGUI()
 	{
 		GUI.skin = UISkin;
-		if(!(LevelManager.gameMode == Mode.RoomCreation && LevelManager.gameState == State.Placement))
+		if(!(LevelManager.gameMode == Mode.RoomCreation && LevelManager.gameState == State.Placement) && !(LevelManager.gameMode == Mode.RoomDeletion))
 		{
-			if(GUI.Button(new Rect(Screen.width*0.005f, Screen.height*0.005f, 32f, 30f), new GUIContent(createRoomIcon,"Create Room")))
+			if(GUI.Button(new Rect(Screen.width*0.005f+(0*34f), Screen.height*0.005f, 32f, 30f), new GUIContent(createRoomIcon,"Create Room")))
 			{
 				LevelManager.gameMode = Mode.RoomCreation;
 				LevelManager.gameState = State.Purchase;
+			}
+			
+			if(GUI.Button(new Rect(Screen.width*0.005f+(1*34f), Screen.height*0.005f, 32f, 30f), new GUIContent(deleteRoomIcon,"Delete Room")))
+			{
+				LevelManager.gameMode = Mode.RoomDeletion;
+				LevelManager.gameState = State.Choose;
 			}
 			
 			if(LevelManager.gameMode == Mode.RoomCreation && LevelManager.gameState == State.Purchase)

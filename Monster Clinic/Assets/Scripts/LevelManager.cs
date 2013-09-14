@@ -25,7 +25,8 @@ public class LevelManager : MonoBehaviour
 	private bool IsoCam = true;
 	private MeshRenderer hoverTileRenderer;
 	private Vector2 selectedCell;
-	private List<Room> rooms;	
+	private Room choosedRoom;
+	private List<Room> rooms;
 	
 	// Use this for initialization
 	void Start () 
@@ -85,6 +86,61 @@ public class LevelManager : MonoBehaviour
 				selectedCell = new Vector2(-1,-1);
 				hoverTileRenderer.enabled = false;
 		   }
+		}
+		
+		// If game mode is room deletion
+		if(gameMode == Mode.RoomDeletion)
+		{
+			// If game state is choose
+			if(gameState == State.Choose)
+			{
+				// Select a room
+				choosedRoom = chooseRoom();
+				
+				// If user has highlighted the room
+				if(choosedRoom != null)
+				{
+					// If user has highlighted the room
+					if(Input.GetMouseButtonUp(0))
+					{
+						// Swicth off hover tile
+						hoverTileRenderer.enabled = false;
+						hoverTile.transform.localScale = new Vector3(1F,1F,1F);
+						
+						// Change the state to deletion
+						gameState = State.Deletion;
+					}
+				}
+				
+				// If excape key is pressed
+				if(Input.GetKey(KeyCode.Escape))
+				{
+					// Swicth off hover tile
+					hoverTileRenderer.enabled = false;
+					hoverTile.transform.localScale = new Vector3(1F,1F,1F);
+					
+					// Reset the mode and state
+					gameMode = Mode.None;
+					gameState = State.None;
+				}
+			}
+			
+			// If game state is deletion
+			if(gameState == State.Deletion)
+			{
+				// Reset values for map
+				setBlockValueRoomMap(choosedRoom.leftBottom, choosedRoom.xLength, choosedRoom.yLength, 0);
+				setBlockValueFloorMap(choosedRoom.leftBottom, choosedRoom.xLength, choosedRoom.yLength, 0);
+				
+				// Delete room
+				rooms.Remove(choosedRoom);
+				choosedRoom.deleteWallsDoors();
+				choosedRoom = null;
+				
+				// Reset the mode and state
+				gameMode = Mode.None;
+				gameState = State.None;
+			}
 		}
 	}
 	
@@ -251,6 +307,58 @@ public class LevelManager : MonoBehaviour
 			}
 		}
 		return false;
+	}
+	
+	// Choose room and return
+	Room chooseRoom()
+	{
+		// Room to return
+		Room markedRoom = null;
+		
+		// Cast a ray from screen mouse position to 3d world space
+		Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit cameraRayHit;
+		
+		// Check if the casted ray collides only floor, then highlight the rectangular area
+		if(Physics.Raycast(cameraRay, out cameraRayHit, 1000, 1 << 8))
+		{
+			// Move the hover tile to collison point
+			Vector3 hitPoint = cameraRayHit.point;
+			Vector2 mouseOverCell = getTilePoints(hitPoint);
+			
+			// Check if cell lies outside room, return null
+			if(Maps.GetRoomMapValue(mouseOverCell)==0)
+			{
+				markedRoom = null;
+				hoverTileRenderer.enabled = false;
+				return markedRoom;
+			}
+			// If cell lies inside the room
+			else
+			{
+				// Get the room Id
+				int markedRoomId = Maps.GetRoomMapValue(mouseOverCell);
+				
+				// Search the room in rooms list
+				foreach(Room r in rooms)
+				{
+					if(r.roomId == markedRoomId)
+					{
+						markedRoom = r;
+						break;
+					}
+				}
+				
+				// Highlight and return the marked room
+				hoverTile.transform.position = new Vector3 (markedRoom.leftBottom.x, 0F, markedRoom.leftBottom.y);
+				hoverTile.transform.localScale = new Vector3(markedRoom.xLength,1F,markedRoom.yLength);
+				hoverTileRenderer.material.SetColor("_Color", new Color(0.0F, 0F, 1.0F, 0.25F));
+				hoverTileRenderer.enabled = true;
+				return markedRoom;
+			}
+		}
+		hoverTileRenderer.enabled = false;
+		return markedRoom;
 	}
 	
 	// Move game object to cell
