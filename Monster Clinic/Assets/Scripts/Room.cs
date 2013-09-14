@@ -17,9 +17,7 @@ public enum State
 {
     None,
 	Purchase,
-    Placement,
-	Selection,
-	Deletion
+    Placement
 }
 
 // Enum room type
