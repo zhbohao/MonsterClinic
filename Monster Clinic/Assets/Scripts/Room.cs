@@ -17,7 +17,9 @@ public enum State
 {
     None,
 	Purchase,
-    Placement
+    Placement,
+	Choose,
+	Deletion
 }
 
 // Enum room type
@@ -59,6 +61,8 @@ public class Room
 	public Vector2 rightBottom;
 	public Vector2 rightTop;
 	public Vector2 door;
+	public float xLength;
+	public float yLength;
 	public List<GameObject> leftWall;
 	public List<GameObject> rightWall;
 	public List<GameObject> bottomWall;
@@ -74,6 +78,8 @@ public class Room
 		rightBottom = new Vector2();
 		rightTop = new Vector2();
 		door = new Vector2();
+		xLength = 0;
+		yLength = 0;
 	}
 	
 	// Overloaded constructor room
@@ -96,6 +102,9 @@ public class Room
 		float xD = rightBottom.x - leftBottom.x;
 		float yD = leftTop.y - leftBottom.y;
 		GameObject wall;
+		
+		xLength = xD;
+		yLength = yD;
 		
 		// Build left wall
 		for(int i = 0; i<yD; i++)
@@ -120,6 +129,31 @@ public class Room
 		{
 			wall = (GameObject) GameObject.Instantiate(horizontalWall, new Vector3(leftTop.x+i,0F,leftTop.y), t.rotation);
 			topWall.Add(wall);
+		}
+	}
+	
+	// Delete the walls and doors of room
+	public void deleteWallsDoors()
+	{
+		// Delete left wall
+		foreach(GameObject go in leftWall)
+		{
+			GameObject.Destroy(go);
+		}
+		// Delete right wall
+		foreach(GameObject go in rightWall)
+		{
+			GameObject.Destroy(go);
+		}
+		// Delete bottom wall
+		foreach(GameObject go in bottomWall)
+		{
+			GameObject.Destroy(go);
+		}
+		// Delete top wall
+		foreach(GameObject go in topWall)
+		{
+			GameObject.Destroy(go);
 		}
 	}
 }
