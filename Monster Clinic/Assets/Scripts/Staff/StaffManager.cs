@@ -9,7 +9,7 @@ public class StaffManager : MonoBehaviour {
 	public GameObject cthuluburse;
 	public GameObject yetitor;
 	
-	public List<Octodoctor> octodoctorList = new List<Octodoctor>();
+	public List<Octodoctor> octodoctorList = new List<Octodoctor>(); //make 6 of each 
 	public List<Cthuluburse> ctuluburseList = new List<Cthuluburse>();
 	public List<Yetitor> yetitorList = new List<Yetitor>();
 	
@@ -17,54 +17,130 @@ public class StaffManager : MonoBehaviour {
 	public GameObject staffTempRef;
 	public MeshRenderer staffTempRefRend;
 	
+	public StaffLabelUpdate[] staffButtons;
+	
+	public List<Staff> staffList= new List<Staff>();
+	
 
 	
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		///ref the gameobjects to the prefab class
 		HospitalPrefabs.Octodoctor = octodoctor;
 		HospitalPrefabs.Cthuluburse = cthuluburse;
 		HospitalPrefabs.Yetitor = yetitor;
-		
-		temp = StaffType.None;
-		staffTempRef = null;
 	}
 	
-	
-	void OnGUI()
+	void Start()
 	{
-		//just for a test buttons
-		if(GUI.Button(new Rect(0,50,100,20),"Octodoctor"))
+		MakeStaffOcto(6);
+		MakeStaffYet(6);
+		MakeStaffct(6);
+		
+		ShowYetitorList();
+	}
+	
+	void ShowOctodoctorList ( )
+	{
+		for (int a= 0; a < octodoctorList.Count; a++)
 		{
-			if(LevelManager.gameState == State.Placement)
-				return;
-				
-			/// make the temp the staff i want
-			temp = StaffType.Octodoctor;
-			LevelManager.gameState = State.Placement;			
-			SpawnTempStaff(HospitalPrefabs.Octodoctor);
-		}
-		if(GUI.Button(new Rect(150,50,100,20),"Cthuluburse"))
-		{
-			if(LevelManager.gameState == State.Placement)
-				return;///if we are in the placement mode you cant purchase another staff
-			
-			///same again
-			temp = StaffType.Cthuluburse;
-			LevelManager.gameState = State.Placement;
-			SpawnTempStaff(HospitalPrefabs.Cthuluburse);
-		}
-		if(GUI.Button(new Rect(300,50,100,20),"Yetitor"))
-		{
-			if(LevelManager.gameState == State.Placement)
-				return;
-			
-			temp = StaffType.Yetitor;
-			LevelManager.gameState = State.Placement;
-			SpawnTempStaff(HospitalPrefabs.Yetitor);
+			staffButtons[a].UpdateGlitter(octodoctorList[a].cost);
+			staffButtons[a].UpdateLevel(octodoctorList[a].level);
+			staffButtons[a].UpdateName(octodoctorList[a].name);
+			staffButtons[a].UpdateWage(octodoctorList[a].monthWage);
 		}
 	}
 	
+	void ShowYetitorList ( )
+	{
+		for (int a= 0; a < yetitorList.Count; a++)
+		{
+			staffButtons[a].UpdateGlitter(yetitorList[a].cost);
+			staffButtons[a].UpdateLevel(yetitorList[a].level);
+			staffButtons[a].UpdateName(yetitorList[a].name);
+			staffButtons[a].UpdateWage(yetitorList[a].monthWage);
+		}
+	}
+	
+	void ShowcthuluburseList ( )
+	{
+		for (int a= 0; a < ctuluburseList.Count; a++)
+		{
+			staffButtons[a].UpdateGlitter(ctuluburseList[a].cost);
+			staffButtons[a].UpdateLevel(ctuluburseList[a].level);
+			staffButtons[a].UpdateName(ctuluburseList[a].name);
+			staffButtons[a].UpdateWage(ctuluburseList[a].monthWage);
+		}
+	}
+	
+	void MakeStaffOcto(int amount)
+	{
+		for(int a= 0; a < amount; a++)
+		{
+			Octodoctor o = new Octodoctor();
+			octodoctorList.Add (o);
+		}
+	}
+	
+	void MakeStaffYet(int amount)
+	{
+		for(int a= 0; a < amount; a++)
+		{
+			Yetitor y = new Yetitor();
+			yetitorList.Add (y);
+		}
+	}
+	
+	void MakeStaffct(int amount)
+	{
+		for(int a= 0; a < amount; a++)
+		{
+			Cthuluburse c = new Cthuluburse();
+			ctuluburseList.Add (c);
+		}
+	}
+	
+	
+//	void OnGUI()
+//	{
+//		int oy = 50;
+//		for(int a= 0; a<octodoctorList.Count; a++)
+//		{
+//			//just for a test buttons
+//			GUI.Box(new Rect(0,40,100,100),"");
+//			if(GUI.Button(new Rect(0,oy,100,20),"Octodoctor" + a))
+//			{
+//				if(LevelManager.gameState == State.Placement)
+//				return;
+//				
+//				/// make the temp the staff i want
+//				temp = StaffType.Octodoctor;
+//				LevelManager.gameState = State.Placement;
+//				SpawnTempStaff(HospitalPrefabs.Octodoctor);
+//			}
+//			oy = oy + 20;
+//		}
+//		if(GUI.Button(new Rect(150,50,100,20),"Cthuluburse"))
+//		{
+//			if(LevelManager.gameState == State.Placement)
+//				return;///if we are in the placement mode you cant purchase another staff
+//			
+//			///same again
+//			temp = StaffType.Cthuluburse;
+//			LevelManager.gameState = State.Placement;
+//			SpawnTempStaff(HospitalPrefabs.Cthuluburse);
+//		}
+//		if(GUI.Button(new Rect(300,50,100,20),"Yetitor"))
+//		{
+//			if(LevelManager.gameState == State.Placement)
+//				return;
+//			
+//			temp = StaffType.Yetitor;
+//			LevelManager.gameState = State.Placement;
+//			SpawnTempStaff(HospitalPrefabs.Yetitor);
+//		}
+//	}
+//	
 	void SpawnTempStaff(GameObject staffPrefab)
 	{
 		// Instantiate staff temp
@@ -147,19 +223,21 @@ public class StaffManager : MonoBehaviour {
 		case StaffType.Cthuluburse:
 			Cthuluburse c = new Cthuluburse();
 			c.staffModel = staffTempRef;
-			ctuluburseList.Add (c);
+			staffList.Add (c);
 			break;
 		case StaffType.Octodoctor:
 			Octodoctor o = new Octodoctor();
 			o.staffModel = staffTempRef;
-			octodoctorList.Add (o);
+			staffList.Add (o);
 			break;
 		case StaffType.Yetitor:
 			Yetitor y = new Yetitor();
 			y.staffModel = staffTempRef;
-			yetitorList.Add (y);
+			staffList.Add (y);
+			print (((Yetitor)(staffList[0])).level);
 			break;
 		}
+		
 	}
 	
 	// Convert world space floor points to tile points

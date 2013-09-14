@@ -172,8 +172,10 @@
      <Compile Include="Assets\Scripts\Room.cs" />
      <Compile Include="Assets\Scripts\Staff\Cthuluburse.cs" />
      <Compile Include="Assets\Scripts\Staff\HospitalPrefabs.cs" />
+     <Compile Include="Assets\Scripts\Staff\NamesList.cs" />
      <Compile Include="Assets\Scripts\Staff\Octodoctor.cs" />
      <Compile Include="Assets\Scripts\Staff\Staff.cs" />
+     <Compile Include="Assets\Scripts\Staff\StaffLabelUpdate.cs" />
      <Compile Include="Assets\Scripts\Staff\StaffManager.cs" />
      <Compile Include="Assets\Scripts\Staff\Yetitor.cs" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Depth Cutout.shader" />
@@ -194,6 +196,7 @@
      <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Dynamic Font (SoftClip).shader" />
      <None Include="Assets\GUI Elements Pack\Sprites\Fonts\times_new_roman_32.txt" />
+     <None Include="Assets\Scripts\Staff\names.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (SoftClip).shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (SoftClip).shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />

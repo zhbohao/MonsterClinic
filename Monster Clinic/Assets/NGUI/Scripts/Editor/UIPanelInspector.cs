@@ -51,6 +51,7 @@ public class UIPanelInspector : Editor
 	{
 		UIPanel panel = target as UIPanel;
 		BetterList<UIDrawCall> drawcalls = panel.drawCalls;
+		drawcalls.Sort(delegate(UIDrawCall w1, UIDrawCall w2) { return w1.depth.CompareTo(w2.depth); });
 		EditorGUIUtility.LookLikeControls(80f);
 
 		//NGUIEditorTools.DrawSeparator();
@@ -100,6 +101,23 @@ public class UIPanelInspector : Editor
 		//        EditorGUILayout.HelpBox("Please note that depth pass will only save fillrate when used with 3D UIs, and only UIs drawn by the game camera. If you are using a separate camera for the UI, you will not see any benefit!", MessageType.Warning);
 		//    }
 		//}
+
+		GUILayout.BeginHorizontal();
+		bool sort = EditorGUILayout.Toggle("Depth Sort", panel.sortByDepth, GUILayout.Width(100f));
+		GUILayout.Label("Sort widgets by depth (ignore Z)");
+		GUILayout.EndHorizontal();
+
+		if (panel.sortByDepth != sort)
+		{
+			panel.sortByDepth = sort;
+			panel.UpdateDrawcalls();
+			EditorUtility.SetDirty(panel);
+		}
+
+		if (!sort)
+		{
+			EditorGUILayout.HelpBox("Keep the 'Depth Sort' flag turned on, unless you are working with a UI created prior to NGUI 2.7.0 and want to sort by Z in addition to Depth.", MessageType.Warning);
+		}
 
 		GUILayout.BeginHorizontal();
 		bool cull = EditorGUILayout.Toggle("Cull", panel.cullWhileDragging, GUILayout.Width(100f));

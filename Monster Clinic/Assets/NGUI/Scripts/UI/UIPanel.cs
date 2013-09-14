@@ -42,6 +42,12 @@ public class UIPanel : MonoBehaviour
 	public OnChangeDelegate onChange;
 
 	/// <summary>
+	/// Defaults to 'false' so that older UIs work as expected.
+	/// </summary>
+
+	public bool sortByDepth = false;
+
+	/// <summary>
 	/// Whether this panel will show up in the panel tool (set this to 'false' for dynamically created temporary panels)
 	/// </summary>
 
@@ -187,9 +193,7 @@ public class UIPanel : MonoBehaviour
 				}
 
 				for (int i = 0; i < mWidgets.size; ++i)
-				{
 					mWidgets[i].MarkAsChangedLite();
-				}
 			}
 		}
 	}
@@ -614,7 +618,8 @@ public class UIPanel : MonoBehaviour
 		for (int i = 0, imax = drawCalls.size; i < imax; ++i)
 		{
 			UIDrawCall dc = drawCalls.buffer[i];
-			if (dc.material == mat) return dc;
+			if (dc.material == mat)
+				return dc;
 		}
 
 		UIDrawCall sc = null;
@@ -979,6 +984,8 @@ public class UIPanel : MonoBehaviour
 
 	void Fill (Material mat)
 	{
+		int highest = -100;
+
 		// Fill the buffers for the specified material
 		for (int i = 0; i < mWidgets.size; )
 		{
@@ -997,6 +1004,8 @@ public class UIPanel : MonoBehaviour
 			{
 				if (w.panel == this)
 				{
+					int depth = w.depth;
+					if (depth > highest) highest = depth;
 					if (generateNormals) w.WriteToBuffers(mVerts, mUvs, mCols, mNorms, mTans);
 					else w.WriteToBuffers(mVerts, mUvs, mCols, null, null);
 				}
@@ -1014,7 +1023,9 @@ public class UIPanel : MonoBehaviour
 			// Rebuild the draw call's mesh
 			UIDrawCall dc = GetDrawCall(mat, true);
 			dc.depthPass = depthPass && mClipping == UIDrawCall.Clipping.None;
+			dc.depth = sortByDepth ? highest : 0;
 			dc.Set(mVerts, generateNormals ? mNorms : null, generateNormals ? mTans : null, mUvs, mCols);
+			dc.mainTexture = mat.mainTexture;
 		}
 		else
 		{
@@ -1277,6 +1288,7 @@ public class UIPanel : MonoBehaviour
 		if (createIfMissing && panel == null && trans != origin)
 		{
 			panel = trans.gameObject.AddComponent<UIPanel>();
+			panel.sortByDepth = true;
 			SetChildLayer(panel.cachedTransform, panel.cachedGameObject.layer);
 		}
 		return panel;

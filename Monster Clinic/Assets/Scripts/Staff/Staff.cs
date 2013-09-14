@@ -22,5 +22,14 @@ public class Staff  {
 	public int experience = 0;
 	public GameObject staffModel;
 	public Texture2D photo;
+	public string name;
+	public int cost;
 	
+	public Staff()
+	{
+		name = NamesList.GetRandomName();
+		monthWage = 30;
+		cost = 40;
+		description = "hey hey";
+	}
 }

@@ -1036,29 +1036,33 @@ public class NGUIEditorTools
 	/// Draw a distinctly different looking header label
 	/// </summary>
 
-	static public bool DrawHeader (string text) { return DrawHeader(text, text); }
+	static public bool DrawHeader (string text, bool forceOn = false) { return DrawHeader(text, text, forceOn); }
 
 	/// <summary>
 	/// Draw a distinctly different looking header label
 	/// </summary>
 
-	static public bool DrawHeader (string text, string key)
+	static public bool DrawHeader (string text, string key, bool forceOn = false)
 	{
-		bool state = EditorPrefs.GetBool(key, false);
+		bool state = EditorPrefs.GetBool(key, true);
 
 		GUILayout.Space(3f);
-		if (!state) GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f);
+		if (!forceOn && !state) GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f);
 		GUILayout.BeginHorizontal();
 		GUILayout.Space(3f);
 
 		GUI.changed = false;
+#if UNITY_3_5
+		if (!GUILayout.Toggle(true, text, "dragtab")) state = !state;
+#else
 		if (!GUILayout.Toggle(true, "<b><size=11>" + text + "</size></b>", "dragtab")) state = !state;
+#endif
 		if (GUI.changed) EditorPrefs.SetBool(key, state);
 
 		GUILayout.Space(2f);
 		GUILayout.EndHorizontal();
 		GUI.backgroundColor = Color.white;
-		if (!state) GUILayout.Space(3f);
+		if (!forceOn && !state) GUILayout.Space(3f);
 		return state;
 	}
 
