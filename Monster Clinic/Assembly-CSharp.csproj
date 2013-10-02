@@ -169,7 +169,8 @@
      <Compile Include="Assets\Scripts\Item.cs" />
      <Compile Include="Assets\Scripts\LevelManager.cs" />
      <Compile Include="Assets\Scripts\Maps.cs" />
-     <Compile Include="Assets\Scripts\Mouse Controller\MousePoint.cs" />
+     <Compile Include="Assets\Scripts\Mouse Controller\DestroyParentGameObject.cs" />
+     <Compile Include="Assets\Scripts\Mouse Controller\Mouse.cs" />
      <Compile Include="Assets\Scripts\Resource Management\BaseValue.cs" />
      <Compile Include="Assets\Scripts\Resource Management\Glitter.cs" />
      <Compile Include="Assets\Scripts\Resource Management\Power.cs" />
@@ -205,6 +206,7 @@
      <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
      <None Include="Assets\Plugins\AstarPathfindingProject\Plugins\dependencies.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Dynamic Font (SoftClip).shader" />
+     <None Include="Assets\Shaders\Projector Additive Shader.shader" />
      <None Include="Assets\GUI Elements Pack\Sprites\Fonts\times_new_roman_32.txt" />
      <None Include="Assets\Scripts\Staff\names.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (SoftClip).shader" />
