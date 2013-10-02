@@ -1,9 +1,25 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Mouse Controller\Mouse.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\TestBox.cs">
     <Files>
-      <File FileName="Assets\Scripts\Mouse Controller\Mouse.cs" Line="61" Column="39" />
+      <File FileName="Assets\Scripts\Mouse Controller\Mouse.cs" Line="48" Column="56" />
+      <File FileName="Assets\Scripts\LevelManager.cs" Line="29" Column="12" />
+      <File FileName="Assets\Scripts\Room.cs" Line="144" Column="40" />
+      <File FileName="Assets\Scripts\TestBox.cs" Line="54" Column="51" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="TestBox.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

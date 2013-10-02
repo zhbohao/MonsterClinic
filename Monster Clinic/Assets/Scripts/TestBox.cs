@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Pathfinding;
 
 // Test box class
 public class TestBox : MonoBehaviour 
@@ -44,10 +45,14 @@ public class TestBox : MonoBehaviour
 						boxRenderer.material.SetColor("_Color", new Color(0F, 1.0F, 0F, 0.25F));
 						if(Input.GetMouseButtonDown(0))
 						{
-							GameObject.Instantiate(testBox, testingBox.transform.position, testingBox.transform.rotation);
+							GameObject box = GameObject.Instantiate(testBox, testingBox.transform.position, testingBox.transform.rotation) as GameObject;
 							Maps.SetFloorMapValue(new Vector2(testingBox.transform.position.x, testingBox.transform.position.z), 1);
 							testingBox.SetActive(false);
 							LevelManager.gameTest = Test.None;
+						
+							// add nav-grid bounds
+							GraphUpdateObject guo = new GraphUpdateObject(box.collider.bounds);
+							AstarPath.active.UpdateGraphs (guo);
 						}	
 					}
 					else

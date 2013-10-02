@@ -204,4 +204,6 @@ public class Room
 		// flush NAV grid graph update. // edited by Chan
 		AstarPath.active.FlushGraphUpdates();
 	}
+	
+	
 }
