@@ -35,7 +35,7 @@ public class AGUI : MonoBehaviour
 	void OnGUI()
 	{
 		GUI.skin = UISkin;
-		if(!(LevelManager.gameMode == Mode.RoomCreation && LevelManager.gameState == State.Placement) && !(LevelManager.gameMode == Mode.RoomDeletion))
+		if(!(LevelManager.gameMode == Mode.RoomCreation && LevelManager.gameState == State.Placement) && !(LevelManager.gameMode == Mode.RoomDeletion) && (LevelManager.gameTest == Test.None))
 		{
 			if(GUI.Button(new Rect(Screen.width*0.005f+(0*34f), Screen.height*0.005f, 32f, 30f), new GUIContent(createRoomIcon,"Create Room")))
 			{

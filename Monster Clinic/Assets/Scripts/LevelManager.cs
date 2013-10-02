@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
 	// Public static variables
 	public static Mode gameMode = Mode.None;
 	public static State gameState = State.None;
+	public static Test gameTest = Test.None;
 	public static RoomType selectedRoomType = RoomType.None;
 	
 	// Public variables

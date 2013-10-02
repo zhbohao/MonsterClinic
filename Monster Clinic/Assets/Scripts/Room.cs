@@ -1,6 +1,14 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Pathfinding;
+
+// Enum test
+public enum Test
+{
+    None,
+	Box
+}
 
 // Enum mode
 public enum Mode
@@ -33,8 +41,7 @@ public enum RoomType
 	SlimeTreatment,
 	ShockTreatment,
 	MagicPotion,
-	PhysicalActivity,
-	Type1
+	PhysicalActivity
 }
 
 // Enum room type
@@ -111,25 +118,43 @@ public class Room
 		{
 			wall = (GameObject) GameObject.Instantiate(verticalWall, new Vector3(leftBottom.x,0F,leftBottom.y+i), t.rotation);
 			leftWall.Add(wall);
+			// adjust NAV grid gragh bounds // edited by Chan
+			Bounds b = wall.collider.bounds;
+			GraphUpdateObject guo = new GraphUpdateObject(b);
+			AstarPath.active.UpdateGraphs (guo);
 		}
 		// Build right wall
 		for(int i = 0; i<yD; i++)
 		{
 			wall = (GameObject) GameObject.Instantiate(verticalWall, new Vector3(rightBottom.x,0F,rightBottom.y+i), t.rotation);
 			rightWall.Add(wall);
+			// adjust NAV grid gragh bounds // edited by Chan
+			Bounds b = wall.collider.bounds;
+			GraphUpdateObject guo = new GraphUpdateObject(b);
+			AstarPath.active.UpdateGraphs (guo);
 		}
 		// Build bottom wall
 		for(int i = 0; i<xD; i++)
 		{
 			wall = (GameObject) GameObject.Instantiate(horizontalWall, new Vector3(leftBottom.x+i,0F,leftBottom.y), t.rotation);
 			bottomWall.Add(wall);
+			// adjust NAV grid gragh bounds // edited by Chan
+			Bounds b = wall.collider.bounds;
+			GraphUpdateObject guo = new GraphUpdateObject(b);
+			AstarPath.active.UpdateGraphs (guo);
 		}
 		// Build top wall
 		for(int i = 0; i<xD; i++)
 		{
 			wall = (GameObject) GameObject.Instantiate(horizontalWall, new Vector3(leftTop.x+i,0F,leftTop.y), t.rotation);
 			topWall.Add(wall);
+			// adjust NAV grid gragh bounds // edited by Chan
+			Bounds b = wall.collider.bounds;
+			GraphUpdateObject guo = new GraphUpdateObject(b);
+			AstarPath.active.UpdateGraphs (guo);
 		}
+		// flush NAV grid graph update. // edited by Chan
+		AstarPath.active.FlushGraphUpdates();
 	}
 	
 	// Delete the walls and doors of room
@@ -138,22 +163,45 @@ public class Room
 		// Delete left wall
 		foreach(GameObject go in leftWall)
 		{
+			// remove NAV grid graph bounds // edited by Chan
+			Bounds b = go.collider.bounds;
+			GraphUpdateObject guo = new GraphUpdateObject(b);
+			AstarPath.active.UpdateGraphs (guo,0.0f);
+			
 			GameObject.Destroy(go);
 		}
 		// Delete right wall
 		foreach(GameObject go in rightWall)
-		{
+		{ 
+			// remove NAV grid graph bounds // edited by Chan
+			Bounds b = go.collider.bounds;
+			GraphUpdateObject guo = new GraphUpdateObject(b);
+			AstarPath.active.UpdateGraphs (guo,0.0f);
+			
 			GameObject.Destroy(go);
 		}
 		// Delete bottom wall
 		foreach(GameObject go in bottomWall)
 		{
+			// remove NAV grid graph bounds // edited by Chan
+			Bounds b = go.collider.bounds;
+			GraphUpdateObject guo = new GraphUpdateObject(b);
+			AstarPath.active.UpdateGraphs (guo,0.0f);
+			
 			GameObject.Destroy(go);
 		}
 		// Delete top wall
 		foreach(GameObject go in topWall)
 		{
+			// remove NAV grid graph bounds // edited by Chan
+			Bounds b = go.collider.bounds;
+			GraphUpdateObject guo = new GraphUpdateObject(b);
+			AstarPath.active.UpdateGraphs (guo,0.0f);
+			
 			GameObject.Destroy(go);
 		}
+		
+		// flush NAV grid graph update. // edited by Chan
+		AstarPath.active.FlushGraphUpdates();
 	}
 }
