@@ -171,6 +171,8 @@
      <Compile Include="Assets\Scripts\Maps.cs" />
      <Compile Include="Assets\Scripts\Mouse Controller\DestroyParentGameObject.cs" />
      <Compile Include="Assets\Scripts\Mouse Controller\Mouse.cs" />
+     <Compile Include="Assets\Scripts\Mouse Controller\MousePoint.cs" />
+     <Compile Include="Assets\Scripts\Mouse Controller\SelectedSwitch.cs" />
      <Compile Include="Assets\Scripts\Resource Management\BaseValue.cs" />
      <Compile Include="Assets\Scripts\Resource Management\Glitter.cs" />
      <Compile Include="Assets\Scripts\Resource Management\Power.cs" />

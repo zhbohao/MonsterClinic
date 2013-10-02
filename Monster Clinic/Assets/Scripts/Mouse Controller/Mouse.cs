@@ -36,7 +36,41 @@ public class Mouse : MonoBehaviour {
 					GameObject targetObj = Instantiate(targetPref, hit.point, Quaternion.identity) as GameObject;
 					movePointTarget.transform.position = targetObj.transform.position; // set move target to the clicked point.
 				}
+				
+				if (Input.GetMouseButtonDown(0) && DidUserClickLeftMouse(mouseDownPoint) )
+					DeselectedGameobjectIfSelected();
+			} // end of terrain!
+			else {
+				// hitting other objects!
+				if (Input.GetMouseButtonUp(0) && DidUserClickLeftMouse(mouseDownPoint) ) {
+					// is the user hitting a unit?
+					GameObject selectedGO = hit.collider.transform.FindChild ("Selected").gameObject;
+					
+					if (selectedGO != null) {						
+						// arn't we selected the same object
+						if (CurrentlySelectedUnit != hit.collider.gameObject) {
+							// found a unit we can select
+							Debug.Log ("Found a unit");
+							selectedGO.GetComponentInChildren<Projector>().enabled = true;
+							
+							if (CurrentlySelectedUnit != null) { // disable the former one
+								CurrentlySelectedUnit.GetComponentInChildren<Projector>().enabled = false;
+							}
+							
+							// replace the former one
+							CurrentlySelectedUnit = hit.collider.gameObject;
+						}
+					}
+					else {
+						// if we selected other object
+						DeselectedGameobjectIfSelected();
+					}
+				}
 			}
+		}
+		else {
+			if (Input.GetMouseButtonUp(0) && DidUserClickLeftMouse(mouseDownPoint) )
+				DeselectedGameobjectIfSelected();
 		}
 		
 		Debug.DrawRay(ray.origin, ray.direction * Mathf.Infinity, Color.yellow);
@@ -57,9 +91,9 @@ public class Mouse : MonoBehaviour {
 	}
 	
 	// diselected if user selected
-	public static void DiselectedGameobjectIfSelected () {
+	public static void DeselectedGameobjectIfSelected () {
 		if (CurrentlySelectedUnit != null) {
-			CurrentlySelectedUnit.transform.FindChild("Selected").gameObject.SetActive(false); // set the producter inactive
+			CurrentlySelectedUnit.GetComponentInChildren<Projector>().enabled = false; // set the producter inactive
 			CurrentlySelectedUnit = null;
 		}
 	}
